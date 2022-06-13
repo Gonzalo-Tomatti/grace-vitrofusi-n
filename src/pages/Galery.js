@@ -1,22 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import { Link } from "react-router-dom";
 
 const Galery = () => {
   const { id } = useParams();
+  const imagesPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
-  const [imagesPerPage] = useState(6);
+  const [numberOfPages, setNumberOfPages] = useState([]);
+  const [currentImages, setCurrentImages] = useState([]);
   const [allImages, setAllImages] = useState([]);
+  const [currentOpenImage, setCurrentOpenImage] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickedBtn, setClickedBtn] = useState();
+  const row = useRef(null);
+
+  useEffect(() => {
+    //OBTENER LAS IMÁGENES DE LA PÁGINA ACTUAL
+    const indexOfLastImage = currentPage * imagesPerPage;
+    const indexOfFirstImage = indexOfLastImage - imagesPerPage;
+    setCurrentImages(allImages.slice(indexOfFirstImage, indexOfLastImage));
+
+    //CALCULAR LA CANTIDAD DE PÁGINAS DE LA CATEGORÍA ACTUAL (en vez de un número es un array del 1 a N para usarse en la paginación)
+    setNumberOfPages(() => {
+      const numbers = [];
+      for (let i = 1; i <= Math.ceil(allImages.length / imagesPerPage); i++) {
+        numbers.push(i);
+      }
+      return numbers;
+    });
+  }, [currentPage, allImages]);
+
+  //// IMPORTAR IMÁGENES DESDE LA CARPETA IMAGES ////
 
   //pasamos el contexto y usamos la función keys para que devuelva un array con el path de cada imagen dentro del contexto (cada elemento del array sería por ej ./adorno.png). Luego mapeamos ese array pasando el contexto como función lo que devuelve para cada imagen un path válido para poner en src como por ej /static/media/1lechuza.8a802242e0b4b127ee16.jpg
-  function importAll(r) {
+  function getImagesFromContext(r) {
     return r.keys().map(r);
   }
-  function componentWillMount() {
+  //SE USA EL ID DE LA CATEGORÍA PARA CALCULAR LA CARPETA DE DÓNDE SE IMPORTAN LAS IMÁGENES
+  function getImagesFromImageFolder() {
     let arrayOfImages = [];
     switch (id) {
       case "tutores":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           //el contexto es una función que devuelve el directorio especificado
           //false indica que no busque en subdirectorios
           //toma los archivos que sean válidos para la regex (regular expression) que estén dentro del contexto
@@ -28,7 +54,7 @@ const Galery = () => {
         );
         break;
       case "adornos":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/adornos/`,
             false,
@@ -37,7 +63,7 @@ const Galery = () => {
         );
         break;
       case "bijouterie":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/bijouterie/`,
             false,
@@ -46,7 +72,7 @@ const Galery = () => {
         );
         break;
       case "ceniceros":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/ceniceros/`,
             false,
@@ -55,7 +81,7 @@ const Galery = () => {
         );
         break;
       case "espejos":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/espejos/`,
             false,
@@ -64,7 +90,7 @@ const Galery = () => {
         );
         break;
       case "floreros":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/floreros/`,
             false,
@@ -73,7 +99,7 @@ const Galery = () => {
         );
         break;
       case "fuentes":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/fuentes/`,
             false,
@@ -82,7 +108,7 @@ const Galery = () => {
         );
         break;
       case "herrería":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/herreria/`,
             false,
@@ -91,7 +117,7 @@ const Galery = () => {
         );
         break;
       case "llamadores":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/llamadores/`,
             false,
@@ -100,7 +126,7 @@ const Galery = () => {
         );
         break;
       case "llaveros":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/llaveros/`,
             false,
@@ -109,7 +135,7 @@ const Galery = () => {
         );
         break;
       case "platos":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/platos/`,
             false,
@@ -118,7 +144,7 @@ const Galery = () => {
         );
         break;
       case "porta velas":
-        arrayOfImages = importAll(
+        arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/porta-velas/`,
             false,
@@ -130,25 +156,140 @@ const Galery = () => {
     return arrayOfImages;
   }
   useEffect(() => {
-    setAllImages(componentWillMount());
+    setAllImages(getImagesFromImageFolder());
   }, []);
+  //// FIN DE IMPORTACIÓN DE IMÁGENES ///
 
-  //calcular imágenes actuales
-  const indexOfLastImage = currentPage * imagesPerPage;
-  const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-  const currentImages = allImages.slice(indexOfFirstImage, indexOfLastImage);
+  //ABRIR Y CERRAR IMÁGEN
+  const toggleModal = (img) => {
+    setIsModalOpen(!isModalOpen);
+    setCurrentOpenImage(img);
+  };
+
+  //SE ABRE LA PRIMERA IMAGEN DE LA SIGUIENTE PÁGINA SI SE CLICKEÓ EN SIGUIENTE O LA ÚLTIMA DE LA ANTERIOR SI SE CLICKEÓ EN ATRÁS
+  useEffect(() => {
+    if (clickedBtn === "next") {
+      setCurrentOpenImage(currentImages[0]);
+    } else if (clickedBtn === "prev") {
+      setCurrentOpenImage(currentImages[currentImages.length - 1]);
+    }
+  }, [currentImages]);
+
+  //ENCONTRAR currentOpenImage EN LA <img> DEL DOM
+  const locateCurrentImg = () => {
+    //children de row es cada div con clase col
+    const childrenOfRow = Array.from(row.current.children);
+    //se busca en el primer hijo (<img>) del hijo (div con clase card) de cada hijo de row (currentImages) el que tenga el mismo src de la currentOpenImage (se cortan los primeros 21 caractéres ya que esa parte del path en el elemento <img> no está en el src de currentOpenImage)
+    const currentDiv = childrenOfRow.find(
+      (i) => i.children[0].children[0].src.slice(21) === currentOpenImage
+    );
+    return currentDiv.children[0].children[0];
+  };
+
+  //PASAR A LA SIGUIENTE IMAGEN
+  const loadNext = () => {
+    setClickedBtn("next");
+    //se obtiene la imagen actual
+    const currentImg = locateCurrentImg();
+    //se obtiene la siguiente imagen si existe en currentImages
+    const nextImg =
+      currentImg.parentNode.parentNode.nextElementSibling &&
+      currentImg.parentNode.parentNode.nextElementSibling.children[0]
+        .children[0];
+    //si no hay más imágenes se pasa a la siguiente página
+    if (!nextImg) {
+      if (currentPage !== numberOfPages.length) {
+        setCurrentPage(currentPage + 1);
+      } else {
+        //si es la última página se vuelve a la primera
+        setCurrentPage(1);
+      }
+    } else {
+      //si existe una siguiente imagen se cambia la actual a la siguiente
+      setCurrentOpenImage(nextImg.src.slice(21));
+    }
+  };
+
+  //PASAR A LA IMAGEN ANTERIOR
+  const loadPrev = () => {
+    setClickedBtn("prev");
+    //se obtiene la imagen actual
+    const currentImg = locateCurrentImg();
+    //se obtiene la imagen anterior si existe
+    const previousImg =
+      currentImg.parentNode.parentNode.previousElementSibling &&
+      currentImg.parentNode.parentNode.previousElementSibling.children[0]
+        .children[0];
+    //si no hay más imágenes se pasa a la página anterior
+    if (!previousImg) {
+      if (currentPage !== 1) {
+        setCurrentPage(currentPage - 1);
+      } else {
+        //si es la primera página se va a la última
+        setCurrentPage(numberOfPages.length);
+      }
+    } else {
+      //si existe una imagen anterior se cambia la actual a la anterior
+      setCurrentOpenImage((prevPopUpImage) =>
+        previousImg ? previousImg.src.slice(21) : prevPopUpImage
+      );
+    }
+  };
 
   return (
-    <div>
-      {currentImages.map((image, index) => (
-        <img className="galery-img" key={index} src={image} alt="info"></img>
-      ))}
-      <Pagination
-        getCurrentPage={setCurrentPage}
-        imagesPerPage={imagesPerPage}
-        totalImages={allImages.length}
-      />
-    </div>
+    <section className="bg-dark p-4">
+      <div className="container ">
+        {/* MODAL DE IMAGEN */}
+        <div className={`${isModalOpen && "show-modal"} modal-overlay`}>
+          <img
+            className="currentOpenImage"
+            src={currentOpenImage}
+            alt="image"
+          />
+          <button className="close-modal-btn" onClick={toggleModal}>
+            CERRAR
+          </button>
+          <button onClick={() => loadNext()}>siguiente</button>
+          <button onClick={() => loadPrev()}>anterior</button>
+        </div>
+        {/* BOTÓN PARA IR ATRÁS */}
+        <Link className="btn btn-primary ms-5" to="/">
+          Atrás
+        </Link>
+        {/* PAGINACIÓN */}
+        {numberOfPages.length > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            getCurrentPage={setCurrentPage}
+            numberOfPages={numberOfPages}
+          />
+        )}
+        {/* IMAGENES */}
+        <div ref={row} className="row row-cols-sm-2 row-cols-md-3">
+          {currentImages.map((image, index) => (
+            <div key={index} className="col-12 p-3">
+              <div
+                onClick={() => toggleModal(image)}
+                className="card bg-secondary text-light m-3"
+              >
+                <img
+                  className="card-img-top galery-img"
+                  src={image}
+                  alt="imagen"
+                  loading="lazy"
+                ></img>
+                <div className="card-body">
+                  <h3 className="card-title text-center">
+                    Código: {id}
+                    {currentPage}.{index}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

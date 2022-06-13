@@ -17,7 +17,7 @@ const Home = () => {
     },
     {
       name: "Ceniceros",
-      img: "images/ceniceros/Cenicero.jpg",
+      img: "images/ceniceros/1Cenicero.jpg",
     },
     {
       name: "Espejos",
@@ -59,12 +59,14 @@ const Home = () => {
         <div className="row row-cols-sm-2 row-cols-md-3">
           {categories.map((cat, index) => (
             <div key={index} className="col-12">
+              {/* se pasa como parámetro la categoría clickeada */}
               <Link className="link" to={`/galeria/${cat.name.toLowerCase()}`}>
                 <div className="card bg-secondary text-light m-3">
                   <img
                     src={cat.img}
                     alt="imagen"
                     className="card-img-top home-img"
+                    loading="lazy"
                   />
                   <div className="card-body">
                     <h3 className="card-title">{cat.name}</h3>
