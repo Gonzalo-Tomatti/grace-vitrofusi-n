@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Pagination from "../components/Pagination";
 
 const Galery = () => {
   const { id } = useParams();
-  let listOfImages = [];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [imagesPerPage] = useState(6);
+  const [allImages, setAllImages] = useState([]);
 
+  //pasamos el contexto y usamos la función keys para que devuelva un array con el path de cada imagen dentro del contexto (cada elemento del array sería por ej ./adorno.png). Luego mapeamos ese array pasando el contexto como función lo que devuelve para cada imagen un path válido para poner en src como por ej /static/media/1lechuza.8a802242e0b4b127ee16.jpg
   function importAll(r) {
     return r.keys().map(r);
   }
   function componentWillMount() {
+    let arrayOfImages = [];
     switch (id) {
       case "tutores":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
+          //el contexto es una función que devuelve el directorio especificado
+          //false indica que no busque en subdirectorios
+          //toma los archivos que sean válidos para la regex (regular expression) que estén dentro del contexto
           require.context(
             `../../public/images/tutores/`,
             false,
@@ -20,7 +28,7 @@ const Galery = () => {
         );
         break;
       case "adornos":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/adornos/`,
             false,
@@ -29,7 +37,7 @@ const Galery = () => {
         );
         break;
       case "bijouterie":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/bijouterie/`,
             false,
@@ -38,7 +46,7 @@ const Galery = () => {
         );
         break;
       case "ceniceros":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/ceniceros/`,
             false,
@@ -47,7 +55,7 @@ const Galery = () => {
         );
         break;
       case "espejos":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/espejos/`,
             false,
@@ -56,7 +64,7 @@ const Galery = () => {
         );
         break;
       case "floreros":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/floreros/`,
             false,
@@ -65,7 +73,7 @@ const Galery = () => {
         );
         break;
       case "fuentes":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/fuentes/`,
             false,
@@ -74,7 +82,7 @@ const Galery = () => {
         );
         break;
       case "herrería":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/herreria/`,
             false,
@@ -83,7 +91,7 @@ const Galery = () => {
         );
         break;
       case "llamadores":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/llamadores/`,
             false,
@@ -92,7 +100,7 @@ const Galery = () => {
         );
         break;
       case "llaveros":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/llaveros/`,
             false,
@@ -101,7 +109,7 @@ const Galery = () => {
         );
         break;
       case "platos":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/platos/`,
             false,
@@ -110,7 +118,7 @@ const Galery = () => {
         );
         break;
       case "porta velas":
-        listOfImages = importAll(
+        arrayOfImages = importAll(
           require.context(
             `../../public/images/porta-velas/`,
             false,
@@ -119,15 +127,27 @@ const Galery = () => {
         );
         break;
     }
+    return arrayOfImages;
   }
+  useEffect(() => {
+    setAllImages(componentWillMount());
+  }, []);
 
-  componentWillMount();
+  //calcular imágenes actuales
+  const indexOfLastImage = currentPage * imagesPerPage;
+  const indexOfFirstImage = indexOfLastImage - imagesPerPage;
+  const currentImages = allImages.slice(indexOfFirstImage, indexOfLastImage);
 
   return (
     <div>
-      {listOfImages.map((image, index) => (
+      {currentImages.map((image, index) => (
         <img className="galery-img" key={index} src={image} alt="info"></img>
       ))}
+      <Pagination
+        getCurrentPage={setCurrentPage}
+        imagesPerPage={imagesPerPage}
+        totalImages={allImages.length}
+      />
     </div>
   );
 };
