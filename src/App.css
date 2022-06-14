@@ -1,21 +1,116 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400|Playfair+Display:400");
+
 body {
-  /* background: url("./flower-bg.jpg") center/cover fixed no-repeat; */
+  font-family: "Source Sans Pro", sans-serif;
+  background-color: rgb(234, 229, 224);
+}
+
+.light-bg {
+  background-color: rgb(234, 229, 224);
+}
+
+.black-bg {
+  background-color: rgb(45, 45, 43);
+}
+
+.light-color {
+  color: rgb(240, 214, 187);
+}
+
+.black-color {
+  color: rgb(45, 45, 43);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Playfair Display", serif;
+  color: rgb(45, 45, 43);
+}
+
+/* NAVBAR */
+nav {
+  height: 4.5rem;
+}
+.navlink {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: rgb(240, 214, 187);
+}
+
+.navlink:hover,
+.navbar-brand:hover {
+  color: rgb(240, 214, 187);
+}
+
+/* FOOTER */
+footer {
+  height: 2.5rem;
+}
+.footer-container {
+  display: grid;
+  place-items: center;
+}
+
+.footer-container p {
+  margin: 0;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(234, 229, 224);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(45, 45, 43);
+  border-radius: 0.2rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(45, 45, 43, 0.8);
+}
+
+/* HOME */
+
+.title {
+  font-size: 2.5rem;
+}
+
+.subtitle {
+  margin: 0.5rem;
+}
+
+.card {
+  border: transparent;
 }
 
 .link {
   text-decoration: none;
 }
 
+.home-img,
 .galery-img {
   width: 18rem;
   height: 18rem;
   object-fit: cover;
 }
 
-.home-img {
-  width: 18rem;
-  height: 18rem;
-  object-fit: cover;
+/* GALERY */
+.galery-img {
+  cursor: pointer;
+}
+
+/* pagination */
+.pagination {
+  transform: scale(0.9);
 }
 
 /* modal */
@@ -28,28 +123,139 @@ body {
   background: rgba(0, 0, 0, 0.5);
   display: grid;
   place-items: center;
-  transition: var(--transition);
   visibility: hidden;
   z-index: -1;
 }
-/* OPEN/CLOSE MODAL */
+/* abrir y cerrar modal */
 .show-modal {
   visibility: visible;
-  z-index: 10;
+  z-index: 1;
 }
 
 .currentOpenImage {
-  width: 80vw;
-  height: 80vh;
-  object-fit: contain;
+  max-width: 90vw;
+  max-height: 90vh;
 }
-.close-modal-btn {
+
+.bi-arrow-right-circle-fill,
+.bi-arrow-left-circle-fill,
+.bi-x-square {
   position: absolute;
-  top: 10rem;
-  right: 10rem;
-  font-size: 2rem;
-  background: transparent;
-  border-color: transparent;
-  color: var(--clr-red-dark);
+  color: white;
+  font-size: 2.5rem;
   cursor: pointer;
+}
+
+.bi-arrow-left-circle-fill {
+  left: 1rem;
+}
+.bi-arrow-right-circle-fill,
+.bi-x-square {
+  right: 1rem;
+}
+.bi-x-square {
+  font-size: 2rem;
+  top: 1rem;
+}
+
+/* ABOUT */
+.about-section {
+  min-height: calc(100vh - (2.5rem + 4.5rem)); /*se resta el footer y nav*/
+}
+
+@media screen and (min-width: 576px) {
+  /* HOME */
+  .title {
+    font-size: 2.8rem;
+  }
+
+  /* pagination */
+  .pagination {
+    transform: scale(1);
+    margin-top: 0.5rem;
+  }
+
+  /*GALERY*/
+  /* modal */
+  .currentOpenImage {
+    max-width: 75vw;
+    max-height: 90vh;
+  }
+
+  .bi-arrow-right-circle-fill,
+  .bi-arrow-left-circle-fill {
+    font-size: 2.7rem;
+  }
+
+  .bi-arrow-left-circle-fill {
+    left: 3.5rem;
+  }
+  .bi-arrow-right-circle-fill,
+  .bi-x-square {
+    right: 3.5rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  /* HOME */
+  .title {
+    font-size: 3rem;
+  }
+  .home-img {
+    width: 18rem;
+    height: 18rem;
+    object-fit: cover;
+  }
+
+  /* GALERY */
+  /* modal */
+  .bi-arrow-right-circle-fill,
+  .bi-arrow-left-circle-fill {
+    font-size: 3rem;
+  }
+
+  .bi-arrow-left-circle-fill {
+    left: 6rem;
+  }
+  .bi-arrow-right-circle-fill,
+  .bi-x-square {
+    right: 6rem;
+  }
+  .bi-x-square {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  /* HOME */
+  .title {
+    font-size: 3.5rem;
+  }
+
+  .home-img {
+    width: 14rem;
+    height: 14rem;
+  }
+
+  /* GALERY */
+  /* modal */
+  .bi-arrow-left-circle-fill {
+    left: 8.5rem;
+  }
+  .bi-arrow-right-circle-fill,
+  .bi-x-square {
+    right: 8.5rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* GALERY */
+  /* modal */
+  .bi-arrow-left-circle-fill {
+    left: 14rem;
+  }
+  .bi-arrow-right-circle-fill,
+  .bi-x-square {
+    right: 14rem;
+  }
 }

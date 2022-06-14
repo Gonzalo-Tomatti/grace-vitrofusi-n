@@ -7,9 +7,11 @@ const Pagination = ({ currentPage, getCurrentPage, numberOfPages }) => {
   useEffect(() => {
     Array.from(list.current.children).forEach((li) => {
       if (li.innerText == currentPage) {
-        li.classList.add("active");
+        li.children[0].classList.add("bg-success");
+        li.children[0].classList.remove("bg-dark");
       } else {
-        li.classList.remove("active");
+        li.children[0].classList.add("bg-dark");
+        li.children[0].classList.remove("bg-success");
       }
     });
   }, [currentPage]);
@@ -21,14 +23,15 @@ const Pagination = ({ currentPage, getCurrentPage, numberOfPages }) => {
 
   return (
     <nav>
-      <ul ref={list} className="pagination justify-content-center mt-5">
+      <ul ref={list} className="pagination justify-content-center">
         {numberOfPages.map((p) => (
-          <li
-            className={`page-item ${p == 1 && "active"}`}
-            key={p}
-            onClick={() => handleCLick(p)}
-          >
-            <a className="page-link" href="#">
+          <li className="page-item" key={p} onClick={() => handleCLick(p)}>
+            <a
+              className={`page-link text-light ${
+                p == 1 ? "bg-success" : "bg-dark"
+              }`}
+              href="#"
+            >
               {p}
             </a>
           </li>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
-import { Link } from "react-router-dom";
 
 const Galery = () => {
   const { id } = useParams();
@@ -237,7 +236,7 @@ const Galery = () => {
   };
 
   return (
-    <section className="bg-dark p-4">
+    <section className="light-bg p-2 text-center">
       <div className="container ">
         {/* MODAL DE IMAGEN */}
         <div className={`${isModalOpen && "show-modal"} modal-overlay`}>
@@ -246,16 +245,49 @@ const Galery = () => {
             src={currentOpenImage}
             alt="image"
           />
-          <button className="close-modal-btn" onClick={toggleModal}>
-            CERRAR
-          </button>
-          <button onClick={() => loadNext()}>siguiente</button>
-          <button onClick={() => loadPrev()}>anterior</button>
+
+          <i
+            onClick={toggleModal}
+            className="bi bi-x-square close-modal-btn"
+          ></i>
+
+          <i
+            onClick={() => loadNext()}
+            className="bi bi-arrow-right-circle-fill"
+          ></i>
+          <i
+            onClick={() => loadPrev()}
+            className="bi bi-arrow-left-circle-fill"
+          ></i>
         </div>
-        {/* BOTÓN PARA IR ATRÁS */}
-        <Link className="btn btn-primary ms-5" to="/">
-          Atrás
-        </Link>
+        {/* TÍTULO */}
+        <h1 className="text-capitalize mt-2 mb-3">{id}</h1>
+        <p>
+          Para realizar algún pedido o consulta, por favor tome nota del código
+          de artículo y diríjase a Contacto.
+        </p>
+        {/* IMÁGENES */}
+        <div ref={row} className="row row-cols-sm-2 row-cols-md-3">
+          {currentImages.map((image, index) => (
+            <div key={index} className="col-12 p-3">
+              <div className="card">
+                <img
+                  onClick={() => toggleModal(image)}
+                  className="card-img-top galery-img"
+                  src={image}
+                  alt="imagen"
+                  loading="lazy"
+                ></img>
+                <div className="card-body black-bg">
+                  <p className="card-title text-center fs-4 light-color">
+                    Código: {id}
+                    {currentPage}.{index}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
         {/* PAGINACIÓN */}
         {numberOfPages.length > 1 && (
           <Pagination
@@ -264,30 +296,6 @@ const Galery = () => {
             numberOfPages={numberOfPages}
           />
         )}
-        {/* IMAGENES */}
-        <div ref={row} className="row row-cols-sm-2 row-cols-md-3">
-          {currentImages.map((image, index) => (
-            <div key={index} className="col-12 p-3">
-              <div
-                onClick={() => toggleModal(image)}
-                className="card bg-secondary text-light m-3"
-              >
-                <img
-                  className="card-img-top galery-img"
-                  src={image}
-                  alt="imagen"
-                  loading="lazy"
-                ></img>
-                <div className="card-body">
-                  <h3 className="card-title text-center">
-                    Código: {id}
-                    {currentPage}.{index}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

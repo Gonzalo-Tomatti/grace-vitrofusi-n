@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-md bg-dark navbar-dark py-3">
+    <nav className="navbar navbar-expand-md black-bg py-3">
       <div className="container">
-        <NavLink className={"navbar-brand"} to="/">
+        <NavLink className={"navbar-brand light-color"} to="/">
           Grace Vitrofusión
         </NavLink>
         <button
@@ -13,23 +13,22 @@ const Navbar = () => {
           data-bs-toggle="collapse"
           data-bs-target="#nav-links"
         >
-          <span className="navbar-toggler-icon"></span>
+          <i className="bi bi-menu-button-wide light-color "></i>
         </button>
-
         <div className="collapse navbar-collapse" id="nav-links">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <NavLink className={"nav-link"} to="/">
+              <NavLink className={"navlink"} to="/">
                 Inicio
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className={"nav-link"} to="acerca-de-grace">
+              <NavLink className={"navlink"} to="acerca-de-grace">
                 Acerca de Grace
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className={"nav-link"} to="contacto">
+              <NavLink className={"navlink"} to="contacto">
                 Contacto
               </NavLink>
             </li>
