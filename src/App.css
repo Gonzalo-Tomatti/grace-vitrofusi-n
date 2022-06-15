@@ -121,6 +121,10 @@ footer {
   transform: scale(0.9);
 }
 
+.pagination-btn {
+  cursor: pointer;
+}
+
 /* modal */
 .modal-overlay {
   position: fixed;

@@ -23,7 +23,8 @@ const Contact = () => {
   };
 
   return (
-    <section className="light-bg p-3">
+    <section className="light-bg p-3 section">
+      <a href="/#/acerca-de-grace">PRUEBA</a>
       <div className="container">
         <h1>Contacto</h1>
         <p className="p">

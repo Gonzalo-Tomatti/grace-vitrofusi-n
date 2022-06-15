@@ -26,14 +26,14 @@ const Pagination = ({ currentPage, getCurrentPage, numberOfPages }) => {
       <ul ref={list} className="pagination justify-content-center">
         {numberOfPages.map((p) => (
           <li className="page-item" key={p} onClick={() => handleCLick(p)}>
-            <a
-              className={`page-link text-light ${
+            {/* si se usa un <a> da problemas con el HashRouter porque al no encontrar la página te manda al inicio */}
+            <span
+              className={`page-link text-light pagination-btn ${
                 p == 1 ? "bg-success" : "bg-dark"
               }`}
-              href="#"
             >
               {p}
-            </a>
+            </span>
           </li>
         ))}
       </ul>
