@@ -201,6 +201,11 @@ const Galery = () => {
         .children[0];
     //si no hay más imágenes se pasa a la siguiente página
     if (!nextImg) {
+      if (numberOfPages.length === 1) {
+        setCurrentOpenImage(
+          row.current.children[0].children[0].children[0].src
+        );
+      }
       if (currentPage !== numberOfPages.length) {
         setCurrentPage(currentPage + 1);
       } else {
@@ -225,6 +230,12 @@ const Galery = () => {
         .children[0];
     //si no hay más imágenes se pasa a la página anterior
     if (!previousImg) {
+      if (numberOfPages.length === 1) {
+        setCurrentOpenImage(
+          row.current.children[row.current.children.length - 1].children[0]
+            .children[0].src
+        );
+      }
       if (currentPage !== 1) {
         setCurrentPage(currentPage - 1);
       } else {
@@ -287,7 +298,7 @@ const Galery = () => {
                 ></img>
                 <div className="card-body black-bg">
                   <p className="card-title text-center fs-4 light-color">
-                    Cod: {id}
+                    Cod: {id.slice(0, 4)}
                     {currentPage}.{index}
                   </p>
                 </div>

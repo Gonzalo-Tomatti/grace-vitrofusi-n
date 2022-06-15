@@ -19,6 +19,11 @@ const Pagination = ({ currentPage, getCurrentPage, numberOfPages }) => {
   //CAMBIAR DE PÁGINA AL NÚMERO DE BOTÓN DE LA PAGINACIÓN CLICKEADO
   const handleCLick = (p) => {
     getCurrentPage(p);
+    //cuando se cambia de página vuelve la pantalla hacia arriba
+    window.scrollTo({
+      left: 0,
+      top: 0,
+    });
   };
 
   return (
