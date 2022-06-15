@@ -160,17 +160,20 @@ const Galery = () => {
   //// FIN DE IMPORTACIÓN DE IMÁGENES ///
 
   //ABRIR Y CERRAR IMÁGEN
-  const toggleModal = (img) => {
+  const toggleModal = (e) => {
     setIsModalOpen(!isModalOpen);
-    setCurrentOpenImage(img);
+    setCurrentOpenImage(e.target.src);
   };
 
   //SE ABRE LA PRIMERA IMAGEN DE LA SIGUIENTE PÁGINA SI SE CLICKEÓ EN SIGUIENTE O LA ÚLTIMA DE LA ANTERIOR SI SE CLICKEÓ EN ATRÁS
   useEffect(() => {
     if (clickedBtn === "next") {
-      setCurrentOpenImage(currentImages[0]);
+      setCurrentOpenImage(row.current.children[0].children[0].children[0].src);
     } else if (clickedBtn === "prev") {
-      setCurrentOpenImage(currentImages[currentImages.length - 1]);
+      setCurrentOpenImage(
+        row.current.children[row.current.children.length - 1].children[0]
+          .children[0].src
+      );
     }
   }, [currentImages]);
 
@@ -178,9 +181,10 @@ const Galery = () => {
   const locateCurrentImg = () => {
     //children de row es cada div con clase col
     const childrenOfRow = Array.from(row.current.children);
-    //se busca en el primer hijo (<img>) del hijo (div con clase card) de cada hijo de row (currentImages) el que tenga el mismo src de la currentOpenImage (se cortan los primeros 21 caractéres ya que esa parte del path en el elemento <img> no está en el src de currentOpenImage)
+    //se busca en el primer hijo (<img>) del hijo (div con clase card) de cada hijo de row (currentImages) el que tenga el mismo src de la currentOpenImage
+
     const currentDiv = childrenOfRow.find(
-      (i) => i.children[0].children[0].src.slice(21) === currentOpenImage
+      (i) => i.children[0].children[0].src === currentOpenImage
     );
     return currentDiv.children[0].children[0];
   };
@@ -205,7 +209,7 @@ const Galery = () => {
       }
     } else {
       //si existe una siguiente imagen se cambia la actual a la siguiente
-      setCurrentOpenImage(nextImg.src.slice(21));
+      setCurrentOpenImage(nextImg.src);
     }
   };
 
@@ -230,7 +234,7 @@ const Galery = () => {
     } else {
       //si existe una imagen anterior se cambia la actual a la anterior
       setCurrentOpenImage((prevPopUpImage) =>
-        previousImg ? previousImg.src.slice(21) : prevPopUpImage
+        previousImg ? previousImg.src : prevPopUpImage
       );
     }
   };
@@ -275,7 +279,7 @@ const Galery = () => {
             <div key={index} className="col-12 p-3">
               <div className="card">
                 <img
-                  onClick={() => toggleModal(image)}
+                  onClick={toggleModal}
                   className="card-img-top galery-img"
                   src={image}
                   alt="imagen"
