@@ -6,6 +6,7 @@ import Galery from "./pages/Galery";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/galeria/:id" element={<Galery />} />
         <Route path="/acerca-de-grace" element={<About />} />
         <Route path="/contacto" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

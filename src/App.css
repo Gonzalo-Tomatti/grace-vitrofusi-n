@@ -30,6 +30,14 @@ h5 {
   color: rgb(45, 45, 43);
 }
 
+.p {
+  margin-bottom: 0;
+}
+
+.section {
+  min-height: calc(100vh - (2.5rem + 4.5rem)); /*se resta el footer y nav*/
+}
+
 /* NAVBAR */
 nav {
   height: 4.5rem;
@@ -126,9 +134,9 @@ footer {
   visibility: hidden;
   z-index: -1;
 }
-/* abrir y cerrar modal */
+
 .show-modal {
-  visibility: visible;
+  visibility: visible; /* abrir y cerrar modal */
   z-index: 1;
 }
 
@@ -158,9 +166,23 @@ footer {
   top: 1rem;
 }
 
-/* ABOUT */
-.about-section {
-  min-height: calc(100vh - (2.5rem + 4.5rem)); /*se resta el footer y nav*/
+/* CONTACT */
+.form-input {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  width: 100%;
+  outline: none;
+}
+
+.textarea {
+  width: 100% !important;
+}
+
+/* NOT FOUND */
+.error404 {
+  font-size: 5rem;
 }
 
 @media screen and (min-width: 576px) {
@@ -194,6 +216,11 @@ footer {
   .bi-x-square {
     right: 3.5rem;
   }
+
+  /* CONTACT */
+  .form-input {
+    width: 17rem;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -224,6 +251,8 @@ footer {
   .bi-x-square {
     font-size: 2.5rem;
   }
+
+  /* CONTACT */
 }
 
 @media screen and (min-width: 992px) {
