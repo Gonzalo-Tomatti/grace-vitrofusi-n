@@ -40,7 +40,7 @@ h5 {
 
 /* NAVBAR */
 nav {
-  height: 4.5rem;
+  min-height: 4.5rem;
 }
 .navlink {
   display: block;
@@ -106,8 +106,8 @@ footer {
 
 .home-img,
 .galery-img {
-  width: 18rem;
-  height: 18rem;
+  width: 14rem;
+  height: 14rem;
   object-fit: cover;
 }
 
@@ -228,11 +228,6 @@ footer {
   .title {
     font-size: 3rem;
   }
-  .home-img {
-    width: 18rem;
-    height: 18rem;
-    object-fit: cover;
-  }
 
   /* GALERY */
   /* modal */
@@ -259,11 +254,6 @@ footer {
   /* HOME */
   .title {
     font-size: 3.5rem;
-  }
-
-  .home-img {
-    width: 14rem;
-    height: 14rem;
   }
 
   /* GALERY */

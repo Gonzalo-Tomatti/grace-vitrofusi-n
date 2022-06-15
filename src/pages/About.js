@@ -4,7 +4,7 @@ const About = () => {
   return (
     <section className="light-bg p-4 section">
       <div className="container">
-        <h3 className="ms-3 mb-3">Bienvenidos.</h3>
+        <h1 className="ms-3 mb-3">Bienvenidos.</h1>
         <p>
           &nbsp;Mi nombre es Graciela y en el 2012 descubrí el arte de trabajar
           el vidrio. Desde entonces me dedico a esta actividad que me apasiona.

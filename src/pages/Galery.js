@@ -4,7 +4,7 @@ import Pagination from "../components/Pagination";
 
 const Galery = () => {
   const { id } = useParams();
-  const imagesPerPage = 6;
+  const imagesPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
@@ -267,7 +267,10 @@ const Galery = () => {
           de artículo y diríjase a Contacto.
         </p>
         {/* IMÁGENES */}
-        <div ref={row} className="row row-cols-sm-2 row-cols-md-3">
+        <div
+          ref={row}
+          className="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
+        >
           {currentImages.map((image, index) => (
             <div key={index} className="col-12 p-3">
               <div className="card">
@@ -280,7 +283,7 @@ const Galery = () => {
                 ></img>
                 <div className="card-body black-bg">
                   <p className="card-title text-center fs-4 light-color">
-                    Código: {id}
+                    Cod: {id}
                     {currentPage}.{index}
                   </p>
                 </div>
