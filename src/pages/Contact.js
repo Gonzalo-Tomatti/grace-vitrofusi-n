@@ -25,7 +25,7 @@ const Contact = () => {
   return (
     <section className="light-bg p-3 section">
       <div className="container">
-        <h1>Contacto</h1>
+        <p className="fs-1">Contacto</p>
         <p className="p">
           Para ponerse en contacto, por favor complete el formulario a
           continuación y a la brevedad responderé a su consulta.
@@ -45,6 +45,7 @@ const Contact = () => {
             name="name"
             id="name"
             placeholder="Ingrese su nombre"
+            required
           ></input>
 
           <label htmlFor="email" className="form-label mt-3">
@@ -56,6 +57,7 @@ const Contact = () => {
             name="email"
             id="email"
             placeholder="Ingrese su correo electrónico"
+            required
           ></input>
 
           <label htmlFor="message" className="form-label mt-3">
@@ -67,6 +69,7 @@ const Contact = () => {
             rows="4"
             className="form-input textarea"
             name="message"
+            required
           ></textarea>
 
           <button type="submit" className="btn btn-dark m-2">

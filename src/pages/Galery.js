@@ -255,11 +255,7 @@ const Galery = () => {
       <div className="container ">
         {/* MODAL DE IMAGEN */}
         <div className={`${isModalOpen && "show-modal"} modal-overlay`}>
-          <img
-            className="currentOpenImage"
-            src={currentOpenImage}
-            alt="image"
-          />
+          <img className="currentOpenImage" src={currentOpenImage} alt={id} />
 
           <i
             onClick={toggleModal}
@@ -276,7 +272,7 @@ const Galery = () => {
           ></i>
         </div>
         {/* TÍTULO */}
-        <h1 className="text-capitalize mt-2 mb-3">{id}</h1>
+        <h2 className="text-capitalize mt-2 mb-3 fs-1">{id}</h2>
         <p>
           Para realizar algún pedido o consulta, por favor tome nota del código
           de artículo y diríjase a Contacto.
@@ -293,7 +289,7 @@ const Galery = () => {
                   onClick={toggleModal}
                   className="card-img-top galery-img"
                   src={image}
-                  alt="imagen"
+                  alt={id}
                   loading="lazy"
                 ></img>
                 <div className="card-body black-bg">

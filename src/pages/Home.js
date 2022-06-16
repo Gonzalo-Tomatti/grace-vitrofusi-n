@@ -71,12 +71,12 @@ const Home = () => {
                 <div className="card">
                   <img
                     src={cat.img}
-                    alt="imagen"
+                    alt={cat.name}
                     className="card-img-top home-img"
                     loading="lazy"
                   />
                   <div className="card-body black-bg ">
-                    <h3 className="card-title light-color">{cat.name}</h3>
+                    <h2 className="card-title light-color fs-3">{cat.name}</h2>
                   </div>
                 </div>
               </Link>
