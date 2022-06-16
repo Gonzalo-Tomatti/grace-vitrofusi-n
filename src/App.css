@@ -35,12 +35,26 @@ h5 {
 }
 
 .section {
-  min-height: calc(100vh - (2.5rem + 4.5rem)); /*se resta el footer y nav*/
+  min-height: calc(100vh - (2.7rem + 4.5rem)); /*se resta el footer y nav*/
 }
 
 /* NAVBAR */
 nav {
   min-height: 4.5rem;
+}
+.navbar-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-brand:hover {
+  color: rgb(240, 214, 187);
+}
+
+.logo {
+  width: 1.3rem;
+  margin-right: 0.1rem;
 }
 .navlink {
   display: block;
@@ -51,15 +65,12 @@ nav {
 }
 
 .navlink:hover {
-  color: rgb(214, 191, 167);
-}
-.navbar-brand:hover {
-  color: rgb(240, 214, 187);
+  color: rgb(200, 179, 156);
 }
 
 /* FOOTER */
 footer {
-  height: 2.5rem;
+  height: 2.7rem;
 }
 .footer-container {
   display: grid;
@@ -92,7 +103,7 @@ footer {
 /* HOME */
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
 }
 
 .subtitle {
@@ -112,13 +123,6 @@ footer {
   width: 14rem;
   height: 14rem;
   object-fit: cover;
-}
-
-.card {
-  transition: all 0.1s ease-in-out;
-}
-.card:hover {
-  transform: scale(1.025);
 }
 
 /* GALERY */
@@ -164,7 +168,7 @@ footer {
 .bi-x-square {
   position: absolute;
   color: white;
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   cursor: pointer;
 }
 
@@ -182,7 +186,7 @@ footer {
   right: 1rem;
 }
 .bi-x-square {
-  font-size: 2rem;
+  font-size: 2.2rem;
   top: 1rem;
 }
 
@@ -208,7 +212,7 @@ footer {
 @media screen and (min-width: 576px) {
   /* HOME */
   .title {
-    font-size: 2.8rem;
+    font-size: 3rem;
   }
 
   /* pagination */
@@ -224,16 +228,11 @@ footer {
     max-height: 90vh;
   }
 
-  .bi-arrow-right-circle-fill,
   .bi-arrow-left-circle-fill {
-    font-size: 2.7rem;
-  }
-
-  .bi-arrow-left-circle-fill {
-    left: 3.5rem;
+    left: 1.9rem;
   }
   .bi-arrow-right-circle-fill {
-    right: 3.5rem;
+    right: 1.9rem;
   }
 
   /* CONTACT */
@@ -245,24 +244,24 @@ footer {
 @media screen and (min-width: 768px) {
   /* HOME */
   .title {
-    font-size: 3rem;
+    font-size: 3.2rem;
   }
 
   /* GALERY */
   /* modal */
   .bi-arrow-right-circle-fill,
   .bi-arrow-left-circle-fill {
-    font-size: 3rem;
+    font-size: 3.1rem;
   }
 
   .bi-arrow-left-circle-fill {
-    left: 6rem;
+    left: 3.4rem;
   }
   .bi-arrow-right-circle-fill {
-    right: 6rem;
+    right: 3.4rem;
   }
   .bi-x-square {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
   }
 
   /* CONTACT */
@@ -271,16 +270,16 @@ footer {
 @media screen and (min-width: 992px) {
   /* HOME */
   .title {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
   }
 
   /* GALERY */
   /* modal */
   .bi-arrow-left-circle-fill {
-    left: 8.5rem;
+    left: 4.5rem;
   }
   .bi-arrow-right-circle-fill {
-    right: 8.5rem;
+    right: 4.5rem;
   }
 
   .bi-x-square {
@@ -292,9 +291,9 @@ footer {
   /* GALERY */
   /* modal */
   .bi-arrow-left-circle-fill {
-    left: 14rem;
+    left: 9rem;
   }
   .bi-arrow-right-circle-fill {
-    right: 14rem;
+    right: 9rem;
   }
 }

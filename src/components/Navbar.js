@@ -1,11 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import logo from "../owl-logo.png";
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md black-bg py-3">
       <div className="container">
         <NavLink className={"navbar-brand light-color"} to="/">
+          <img className="logo" src={logo} alt="" />
           Grace Vitrofusión
         </NavLink>
         <button

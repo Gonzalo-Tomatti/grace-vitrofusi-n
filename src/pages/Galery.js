@@ -251,7 +251,7 @@ const Galery = () => {
   };
 
   return (
-    <section className="light-bg p-2 text-center">
+    <section className="light-bg p-2 text-center section">
       <div className="container ">
         {/* MODAL DE IMAGEN */}
         <div className={`${isModalOpen && "show-modal"} modal-overlay`}>
