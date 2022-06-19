@@ -12,5 +12,5 @@ En el navbar hay una sección para leer sobre la artista que realizó todo el tr
 
 Para realizar una compra o consulta se puede ir a la sección de contacto y usar el form que allí se encuentra.
 
-La página utiliza Html5, Css3 y Javascript con el framework React. Para el funcionamiento del form se implementó EmailJs.
+La página utiliza Html5, Css3 y Javascript con la librería React.js. Para el funcionamiento del form se implementó EmailJs.
 Para correrla después de clonar el repositorio (si se tiene npm instalado) utilizar el comando 'npm install', lo que instalará los módulos necesarios y sus dependencias, y luego 'npm start' para ejecutarla.
