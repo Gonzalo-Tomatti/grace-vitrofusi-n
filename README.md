@@ -2,7 +2,7 @@ Grace Vitrofusión.
 
 https://grace-vitrofusion.netlify.app/
 
-Esta es una página dedicada a la exhibición de artículos de vitrofusión (objetos decorativos hechos con vidrio).
+Esta es una página dedicada a la venta de artículos de vitrofusión (objetos decorativos hechos con vidrio).
 
 Cuenta con 12 categorías mostradas en el menú principal. Al entrar a cada una se pueden recorrer todas las fotos pertenecientes a la categoría elegida. Estas fotos se cargan de a 8 por página y, en caso de haber más, se muestra la paginación para recorrer la categoría.
 
