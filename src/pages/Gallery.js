@@ -1,16 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import { GLobalContext } from "../context";
 
-const Galery = () => {
+const Gallery = () => {
+  const { addToCart, removeFromCart, cartItems } = useContext(GLobalContext);
   const { id } = useParams();
+  const [price, setPrice] = useState();
   const imagesPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
   const [allImages, setAllImages] = useState([]);
   const [currentOpenImage, setCurrentOpenImage] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImageOpen, setIsImageOpen] = useState(false);
   const [clickedBtn, setClickedBtn] = useState();
   const row = useRef(null);
 
@@ -41,6 +44,7 @@ const Galery = () => {
     let arrayOfImages = [];
     switch (id) {
       case "tutores":
+        setPrice(15);
         arrayOfImages = getImagesFromContext(
           //el contexto es una función que devuelve el directorio especificado
           //false indica que no busque en subdirectorios
@@ -53,6 +57,7 @@ const Galery = () => {
         );
         break;
       case "adornos":
+        setPrice(20);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/adornos/`,
@@ -62,6 +67,7 @@ const Galery = () => {
         );
         break;
       case "bijouterie":
+        setPrice(10);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/bijouterie/`,
@@ -71,6 +77,7 @@ const Galery = () => {
         );
         break;
       case "ceniceros":
+        setPrice(12);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/ceniceros/`,
@@ -80,6 +87,7 @@ const Galery = () => {
         );
         break;
       case "espejos":
+        setPrice(22);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/espejos/`,
@@ -89,6 +97,7 @@ const Galery = () => {
         );
         break;
       case "floreros":
+        setPrice(17);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/floreros/`,
@@ -98,6 +107,7 @@ const Galery = () => {
         );
         break;
       case "fuentes":
+        setPrice(25);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/fuentes/`,
@@ -107,6 +117,7 @@ const Galery = () => {
         );
         break;
       case "herrería":
+        setPrice(19);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/herreria/`,
@@ -116,6 +127,7 @@ const Galery = () => {
         );
         break;
       case "llamadores":
+        setPrice(8);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/llamadores/`,
@@ -125,6 +137,7 @@ const Galery = () => {
         );
         break;
       case "llaveros":
+        setPrice(5);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/llaveros/`,
@@ -134,6 +147,7 @@ const Galery = () => {
         );
         break;
       case "platos":
+        setPrice(24);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/platos/`,
@@ -143,6 +157,7 @@ const Galery = () => {
         );
         break;
       case "porta velas":
+        setPrice(11);
         arrayOfImages = getImagesFromContext(
           require.context(
             `../../public/images/porta-velas/`,
@@ -161,7 +176,7 @@ const Galery = () => {
 
   //ABRIR Y CERRAR IMÁGEN
   const toggleModal = (e) => {
-    setIsModalOpen(!isModalOpen);
+    setIsImageOpen(!isImageOpen);
     setCurrentOpenImage(e.target.src);
   };
 
@@ -254,13 +269,10 @@ const Galery = () => {
     <section className="light-bg p-2 text-center section">
       <div className="container ">
         {/* MODAL DE IMAGEN */}
-        <div className={`${isModalOpen && "show-modal"} modal-overlay`}>
+        <div className={`${isImageOpen && "show-modal"} modal-overlay`}>
           <img className="currentOpenImage" src={currentOpenImage} alt={id} />
 
-          <i
-            onClick={toggleModal}
-            className="bi bi-x-square close-modal-btn"
-          ></i>
+          <i onClick={toggleModal} className="bi bi-x-square"></i>
 
           <i
             onClick={() => loadNext()}
@@ -274,33 +286,51 @@ const Galery = () => {
         {/* TÍTULO */}
         <h2 className="text-capitalize mt-2 mb-3 fs-1">{id}</h2>
         <p>
-          Para realizar algún pedido o consulta, por favor tome nota del código
-          de artículo y diríjase a Contacto.
+          Para realizar consultas, por favor tome nota del código de artículo y
+          diríjase a Contacto.
         </p>
         {/* IMÁGENES */}
         <div
           ref={row}
           className="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
         >
-          {currentImages.map((image, index) => (
-            <div key={index} className="col-12 p-3">
-              <div className="card">
-                <img
-                  onClick={toggleModal}
-                  className="card-img-top galery-img"
-                  src={image}
-                  alt={id}
-                  loading="lazy"
-                ></img>
-                <div className="card-body black-bg">
-                  <p className="card-title text-center fs-4 light-color">
-                    Cod: {id.slice(0, 4)}
-                    {currentPage}.{index}
-                  </p>
+          {currentImages.map((image, index) => {
+            const code = `${id.slice(0, 4)}${currentPage}.${index}`;
+            return (
+              <div key={index} className="col-12 p-3">
+                <div className="card">
+                  <img
+                    onClick={toggleModal}
+                    className="card-img-top gallery-img"
+                    src={image}
+                    alt={id}
+                    loading="lazy"
+                  ></img>
+                  <div className="card-body black-bg">
+                    <div className="card-title text-center fs-4 light-color">
+                      <p className="p">Cod: {code}</p>
+                      <p className="p">Price: ${price}</p>
+                    </div>
+                    {cartItems.find((i) => i.code === code) ? (
+                      <button
+                        onClick={() => removeFromCart(code)}
+                        className="btn btn-success"
+                      >
+                        Sacar del Carrito
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => addToCart(code, price)}
+                        className="btn btn-success"
+                      >
+                        Añadir al Carrito
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {/* PAGINACIÓN */}
         {numberOfPages.length > 1 && (
@@ -315,4 +345,4 @@ const Galery = () => {
   );
 };
 
-export default Galery;
+export default Gallery;

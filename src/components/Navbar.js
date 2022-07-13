@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../owl-logo.png";
+import { GLobalContext } from "../context";
 
 const Navbar = () => {
+  const { toggleCart, cartItems } = useContext(GLobalContext);
+
   return (
     <nav className="navbar navbar-expand-md black-bg py-3">
       <div className="container">
@@ -33,6 +36,15 @@ const Navbar = () => {
               <NavLink className={"navlink"} to="contacto">
                 Contacto
               </NavLink>
+            </li>
+            <li className="nav-item">
+              <i onClick={toggleCart} className="bi bi-cart-fill navlink">
+                {cartItems.length ? (
+                  <span className="item-count d-flex justify-content-center align-items-center">
+                    {cartItems.length}
+                  </span>
+                ) : null}
+              </i>
             </li>
           </ul>
         </div>
