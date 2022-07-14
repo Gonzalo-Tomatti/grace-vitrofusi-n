@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
 import CartModal from "./components/CartModal";
+import LogIn from "./components/LogIn";
 import MakePurchase from "./pages/MakePurchase";
 import CompletePurchase from "./pages/CompletePurchase";
 import { GlobalProvider } from "./context";
@@ -18,6 +19,7 @@ function App() {
       <GlobalProvider>
         <Navbar />
         <CartModal />
+        <LogIn />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/galeria/:id" element={<Gallery />} />

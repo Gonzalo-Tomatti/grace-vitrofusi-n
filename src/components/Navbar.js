@@ -4,8 +4,8 @@ import logo from "../owl-logo.png";
 import { GLobalContext } from "../context";
 
 const Navbar = () => {
-  const { toggleCart, cartItems } = useContext(GLobalContext);
-
+  const { toggleCart, cartItems, toggleLogin, isLoggedIn, closeSession } =
+    useContext(GLobalContext);
   return (
     <nav className="navbar navbar-expand-md black-bg py-3">
       <div className="container">
@@ -36,6 +36,17 @@ const Navbar = () => {
               <NavLink className={"navlink"} to="contacto">
                 Contacto
               </NavLink>
+            </li>
+            <li className="nav-item">
+              {isLoggedIn ? (
+                <p onClick={closeSession} className="navlink p">
+                  Cerrar Sesión
+                </p>
+              ) : (
+                <p onClick={toggleLogin} className="navlink p">
+                  Iniciar Sesión
+                </p>
+              )}
             </li>
             <li className="nav-item">
               <i onClick={toggleCart} className="bi bi-cart-fill navlink">

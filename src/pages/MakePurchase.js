@@ -12,14 +12,14 @@ const MakePurchase = () => {
           <div className="d-flex mt-4">
             <label>Selecciona un método de pago: </label>
             <select
-              name="category"
+              name="method"
               className=" mx-2"
               onChange={handleChange}
               value={purchaseData.method}
             >
               <option value="">-----</option>
-              <option value="visa">Visa</option>
-              <option value="mastercard">Mastercard</option>
+              <option value="Visa">Visa</option>
+              <option value="Mastercard">Mastercard</option>
             </select>
           </div>
           <label htmlFor="number" className="form-label mt-3">
@@ -88,6 +88,16 @@ const MakePurchase = () => {
               ></input>
             </div>
           </div>
+          <label htmlFor="phone" className="form-label mt-3">
+            Dirección
+          </label>
+          <input
+            type="text"
+            className="form-input"
+            name="address"
+            id="address"
+            required
+          ></input>
           <Link
             to={"/finalizar-compra"}
             className="btn btn-success mt-4 d-block mx-auto purchase-link"

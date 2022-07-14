@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import { GLobalContext } from "../context";
+import PlsLogin from "../components/PlsLogin";
 
 const Gallery = () => {
   const { addToCart, removeFromCart, cartItems } = useContext(GLobalContext);
@@ -268,6 +269,7 @@ const Gallery = () => {
   return (
     <section className="light-bg p-2 text-center section">
       <div className="container ">
+        <PlsLogin />
         {/* MODAL DE IMAGEN */}
         <div className={`${isImageOpen && "show-modal"} modal-overlay`}>
           <img className="currentOpenImage" src={currentOpenImage} alt={id} />
