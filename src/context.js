@@ -1,16 +1,18 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-let storedItems, storedUser;
+// AXIOS GLOBALS
+let storedItems, storedToken;
 window.addEventListener("DOMContentLoaded", () => {
-  storedUser = JSON.parse(localStorage.getItem("user")) || {
-    password: "",
-    email: "",
-  };
+  storedToken = JSON.parse(localStorage.getItem("token")) || "";
   storedItems = JSON.parse(localStorage.getItem("cart-items")) || [];
 });
+
 export const GLobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
+  const [token, setToken] = useState(storedToken);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,7 +23,7 @@ export const GlobalProvider = ({ children }) => {
   const [signupEmptyFields, setSignupEmptyFields] = useState(false);
   const [closeSessionFlag, setCloseSessionFlag] = useState(false);
   const [emailInUse, setEmailInUse] = useState(false);
-  const [user, setUser] = useState(storedUser);
+  const [user, setUser] = useState({ email: "", password: "" });
   const [purchaseData, setPurchaseData] = useState({
     method: "",
     number: "",
@@ -51,7 +53,6 @@ export const GlobalProvider = ({ children }) => {
       phone: purchaseData.phone,
       address: purchaseData.address,
       items: cartItems,
-      email: user.email,
     };
     axios
       .post("https://grace-vitrofusion.herokuapp.com/make-purchase", purchase)
@@ -60,15 +61,16 @@ export const GlobalProvider = ({ children }) => {
       });
   };
 
-  // console.log("stored user", storedUser);
   // console.log("stored items", storedItems);
+  // console.log("stored token", storedToken);
   // console.log("logeado", isLoggedIn);
-  // console.log("user variable", user);
+  console.log("user variable", user);
   // console.log("cart items variable", cartItems);
+  // console.log("token variable", token);
 
   // when you refresh the website, if there's a user set in local storage then you set loggedIn to true
   useEffect(() => {
-    if (user.email) {
+    if (token) {
       setIsLoggedIn(true);
     }
   }, []);
@@ -82,9 +84,9 @@ export const GlobalProvider = ({ children }) => {
   //when you log in save the user in local storage, when you close session remove user and cartItems from local storage
   useEffect(() => {
     if (isLoggedIn) {
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", JSON.stringify(token));
     } else {
-      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       localStorage.removeItem("cart-items");
     }
   }, [isLoggedIn]);
@@ -116,6 +118,7 @@ export const GlobalProvider = ({ children }) => {
               setEmailInUse(false);
             }, 3000);
           } else {
+            setToken(res.data.token);
             setIsLoggedIn(true);
             toggleLogin();
             toggleSignupFlag();
@@ -138,17 +141,15 @@ export const GlobalProvider = ({ children }) => {
       }, 3000);
     } else {
       axios
-        .get(
-          `https://grace-vitrofusion.herokuapp.com/login/${user.email}&${user.password}`
-        )
+        .post(`https://grace-vitrofusion.herokuapp.com/login`, user)
         .then((res) => {
-          if (!res.data.length) {
+          if (res.data.msg === "user not found") {
             setIncorrectUser(true);
             setTimeout(() => {
               setIncorrectUser(false);
             }, 3000);
           } else {
-            setUser(res.data[0]);
+            setToken(res.data.token);
             setIsLoggedIn(true);
             toggleLogin();
           }
@@ -201,9 +202,9 @@ export const GlobalProvider = ({ children }) => {
     if (signupFlag) {
       setSignupFlag(false);
     }
-    // if (!isLoggedIn) {
-    //   setUser({ password: "", email: "" });
-    // }
+    if (!isLoggedIn) {
+      setUser({ password: "", email: "" });
+    }
   };
 
   const addToCart = (code, price) => {
@@ -281,6 +282,7 @@ export const GlobalProvider = ({ children }) => {
         incorrectUser,
         signupEmptyFields,
         emailInUse,
+        token,
       }}
     >
       {children}

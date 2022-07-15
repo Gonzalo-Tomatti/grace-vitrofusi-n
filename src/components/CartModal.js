@@ -4,8 +4,7 @@ import CartList from "./CartList";
 import { Link } from "react-router-dom";
 
 const CartModal = () => {
-  const { toggleCart, isCartOpen, cartItems, updateAmount } =
-    useContext(GLobalContext);
+  const { toggleCart, isCartOpen, cartItems } = useContext(GLobalContext);
 
   return (
     <div className={`${isCartOpen && "show-modal"} modal-overlay`}>

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../owl-logo.png";
 import { GLobalContext } from "../context";
 

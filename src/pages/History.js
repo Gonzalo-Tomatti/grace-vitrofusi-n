@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { GLobalContext } from "../context";
 import Purchase from "../components/Purchase";
 
 const History = () => {
-  const { user } = useContext(GLobalContext);
   const [history, setHistory] = useState([]);
   const [fetchingHistory, setFetchingHistory] = useState(true);
   setTimeout(() => {
@@ -12,12 +10,11 @@ const History = () => {
   }, 1000);
   useEffect(() => {
     axios
-      .get(
-        `https://grace-vitrofusion.herokuapp.com/get-purchases/${user.email}`
-      )
+      .get(`https://grace-vitrofusion.herokuapp.com/get-purchases`)
       .then((res) => {
         setHistory(res.data);
-      });
+      })
+      .catch((err) => console.log(err));
   }, [fetchingHistory]);
 
   if (fetchingHistory) {
