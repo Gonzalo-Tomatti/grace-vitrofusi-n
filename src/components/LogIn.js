@@ -21,11 +21,17 @@ const LogIn = () => {
       <div className="login-container text-center light-bg d-flex flex-column align-items-center  py-4">
         <i onClick={toggleLogin} className="bi bi-x-lg"></i>
         <form className="d-flex flex-column justify-content-center align-items-center login-form">
-          <i
-            onClick={toggleSignupFlag}
-            className="bi bi-arrow-left back-to-login"
-          ></i>
-          {signupFlag ? <h4>Crear cuenta</h4> : <h4>Iniciar sesión</h4>}
+          {signupFlag ? (
+            <div>
+              <h4>Crear cuenta</h4>
+              <i
+                onClick={toggleSignupFlag}
+                className="bi bi-arrow-left back-to-login"
+              ></i>
+            </div>
+          ) : (
+            <h4>Iniciar sesión</h4>
+          )}
 
           <label htmlFor="username" className="form-label mt-3">
             Nombre de usuario
