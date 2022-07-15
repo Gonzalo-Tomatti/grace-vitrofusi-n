@@ -4,7 +4,6 @@ import axios from "axios";
 let storedItems, storedUser;
 window.addEventListener("DOMContentLoaded", () => {
   storedUser = JSON.parse(localStorage.getItem("user")) || {
-    username: "",
     password: "",
     email: "",
   };
@@ -69,7 +68,7 @@ export const GlobalProvider = ({ children }) => {
 
   // when you refresh the website, if there's a user set in local storage then you set loggedIn to true
   useEffect(() => {
-    if (user.username) {
+    if (user.email) {
       setIsLoggedIn(true);
     }
   }, []);
@@ -102,7 +101,7 @@ export const GlobalProvider = ({ children }) => {
 
   const signUp = (e) => {
     e.preventDefault();
-    if (user.username === "" || user.password === "" || user.email === "") {
+    if (user.password === "" || user.email === "") {
       setSignupEmptyFields(true);
       setTimeout(() => {
         setSignupEmptyFields(false);
@@ -132,7 +131,7 @@ export const GlobalProvider = ({ children }) => {
 
   const logIn = (e) => {
     e.preventDefault();
-    if (user.username === "" || user.password === "") {
+    if (user.email === "" || user.password === "") {
       setIncorrectUser(true);
       setTimeout(() => {
         setIncorrectUser(false);
@@ -140,7 +139,7 @@ export const GlobalProvider = ({ children }) => {
     } else {
       axios
         .get(
-          `https://grace-vitrofusion.herokuapp.com/login/${user.username}&${user.password}`
+          `https://grace-vitrofusion.herokuapp.com/login/${user.email}&${user.password}`
         )
         .then((res) => {
           if (!res.data.length) {
@@ -163,7 +162,6 @@ export const GlobalProvider = ({ children }) => {
   const closeSession = () => {
     setIsLoggedIn(false);
     setUser({
-      username: "",
       password: "",
       email: "",
     });
@@ -204,7 +202,7 @@ export const GlobalProvider = ({ children }) => {
       setSignupFlag(false);
     }
     // if (!isLoggedIn) {
-    //   setUser({ username: "", password: "", email: "" });
+    //   setUser({ password: "", email: "" });
     // }
   };
 

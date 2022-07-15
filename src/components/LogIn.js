@@ -32,17 +32,16 @@ const LogIn = () => {
           ) : (
             <h4>Iniciar sesión</h4>
           )}
-
-          <label htmlFor="username" className="form-label mt-3">
-            Nombre de usuario
+          <label htmlFor="email" className="form-label mt-3">
+            Email
           </label>
           <input
             onChange={handleLogin}
-            value={user.username}
-            type="text"
+            value={user.email}
+            type="email"
             className="form-input"
-            name="username"
-            id="username"
+            name="email"
+            id="email"
             required
           ></input>
           <label htmlFor="password" className="form-label mt-3">
@@ -59,18 +58,6 @@ const LogIn = () => {
           ></input>
           {signupFlag ? (
             <div>
-              <label htmlFor="email" className="form-label mt-3">
-                Email
-              </label>
-              <input
-                onChange={handleLogin}
-                value={user.email}
-                type="email"
-                className="form-input"
-                name="email"
-                id="email"
-                required
-              ></input>
               {signupEmptyFields && (
                 <p className="text-danger p mt-2">
                   Por favor complete todos los campos.
