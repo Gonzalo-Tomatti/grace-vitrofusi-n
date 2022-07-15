@@ -21,33 +21,38 @@ const LogIn = () => {
       <div className="login-container text-center light-bg d-flex flex-column align-items-center  py-4">
         <i onClick={toggleLogin} className="bi bi-x-lg"></i>
         <form className="d-flex flex-column justify-content-center align-items-center login-form">
+          <i
+            onClick={toggleSignupFlag}
+            className="bi bi-arrow-left back-to-login"
+          ></i>
+          {signupFlag ? <h4>Crear cuenta</h4> : <h4>Iniciar sesión</h4>}
+
+          <label htmlFor="username" className="form-label mt-3">
+            Nombre de usuario
+          </label>
+          <input
+            onChange={handleLogin}
+            value={user.username}
+            type="text"
+            className="form-input"
+            name="username"
+            id="username"
+            required
+          ></input>
+          <label htmlFor="password" className="form-label mt-3">
+            Contraseña
+          </label>
+          <input
+            onChange={handleLogin}
+            value={user.password}
+            type="text"
+            className="form-input"
+            name="password"
+            id="password"
+            required
+          ></input>
           {signupFlag ? (
             <div>
-              <h4>Crear cuenta</h4>
-              <label htmlFor="username" className="form-label mt-3">
-                Nombre de usuario
-              </label>
-              <input
-                onChange={handleLogin}
-                value={user.username}
-                type="text"
-                className="form-input"
-                name="username"
-                id="username"
-                required
-              ></input>
-              <label htmlFor="password" className="form-label mt-3">
-                Contraseña
-              </label>
-              <input
-                onChange={handleLogin}
-                value={user.password}
-                type="text"
-                className="form-input"
-                name="password"
-                id="password"
-                required
-              ></input>
               <label htmlFor="email" className="form-label mt-3">
                 Email
               </label>
@@ -76,31 +81,6 @@ const LogIn = () => {
             </div>
           ) : (
             <div>
-              <h4>Iniciar sesión</h4>
-              <label htmlFor="username" className="form-label mt-3">
-                Nombre de usuario
-              </label>
-              <input
-                onChange={handleLogin}
-                value={user.username}
-                type="text"
-                className="form-input mx-auto"
-                name="username"
-                id="username"
-                required
-              ></input>
-              <label htmlFor="password" className="form-label mt-3">
-                Contraseña
-              </label>
-              <input
-                onChange={handleLogin}
-                value={user.password}
-                type="text"
-                className="form-input mx-auto"
-                name="password"
-                id="password"
-                required
-              ></input>
               {incorrectUser && (
                 <p className="text-danger p mt-2">
                   Usuario Incorrecto. Por favor ingrese un nombre de usuario y

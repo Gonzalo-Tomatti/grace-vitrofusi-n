@@ -179,6 +179,15 @@ footer {
 .login-form {
   height: 100%;
 }
+
+.back-to-login {
+  font-size: 1.3rem;
+  cursor: pointer;
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+}
+
 .cart-container table {
   width: 85%;
   margin-top: 2rem;
