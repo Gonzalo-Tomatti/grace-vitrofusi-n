@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CartList from "../components/CartList";
 
 const CompletePurchase = () => {
-  const { cartItems, purchaseData } = useContext(GLobalContext);
+  const { cartItems, purchaseData, makePurchase } = useContext(GLobalContext);
   return (
     <div className="section p-3">
       <Link to={"/realizar-compra"} className="btn btn-success mt-4 ">
@@ -24,7 +24,13 @@ const CompletePurchase = () => {
             </p>
             <p>Método de pago: {purchaseData.method}</p>
             <p>Número de tarjeta: {purchaseData.number}</p>
-            <button className="btn btn-success">Comprar</button>
+            <Link
+              to={"/historial"}
+              onClick={makePurchase}
+              className="btn btn-success"
+            >
+              Comprar
+            </Link>
           </>
         )}
       </div>

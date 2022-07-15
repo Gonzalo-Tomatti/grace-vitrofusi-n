@@ -1,19 +1,93 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
+let storedItems, storedUser;
+window.addEventListener("DOMContentLoaded", () => {
+  storedUser = JSON.parse(localStorage.getItem("user")) || {
+    username: "",
+    password: "",
+    email: "",
+  };
+  storedItems = JSON.parse(localStorage.getItem("cart-items")) || [];
+});
 export const GLobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [plsLogin, setPlsLogin] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(storedItems);
   const [signupFlag, setSignupFlag] = useState(false);
-  const [user, setUser] = useState({ username: "", password: "", email: "" });
+  const [incorrectUser, setIncorrectUser] = useState(false);
+  const [signupEmptyFields, setSignupEmptyFields] = useState(false);
+  const [closeSessionFlag, setCloseSessionFlag] = useState(false);
+  const [user, setUser] = useState(storedUser);
   const [purchaseData, setPurchaseData] = useState({
-    number: "",
     method: "",
+    number: "",
+    name: "",
+    lastName: "",
+    phone: "",
+    address: "",
   });
+  const [purchaseDetails, setPurchaseDetails] = useState();
+
+  const setCurrentPurchaseDetails = (details) => {
+    setPurchaseDetails(details);
+  };
+
+  const makePurchase = () => {
+    const date = new Date();
+    const total = cartItems.reduce((total, current) => {
+      return total + current.price;
+    }, 0);
+    const purchase = {
+      date,
+      total,
+      method: purchaseData.method,
+      number: purchaseData.number,
+      name: purchaseData.name,
+      lastName: purchaseData.lastName,
+      phone: purchaseData.phone,
+      address: purchaseData.address,
+      items: cartItems,
+      email: user.email,
+    };
+    axios
+      .post("https://grace-vitrofusion.herokuapp.com/make-purchase", purchase)
+      .then(() => {
+        setCartItems([]);
+      });
+  };
+
+  // console.log("stored user", storedUser);
+  // console.log("stored items", storedItems);
+  // console.log("logeado", isLoggedIn);
+  // console.log("user variable", user);
+  // console.log("cart items variable", cartItems);
+
+  // when you refresh the website, if there's a user set in local storage then you set loggedIn to true
+  useEffect(() => {
+    if (user.username) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+  //save the cartItems in local storage every time you change them
+  useEffect(() => {
+    if (isLoggedIn) {
+      localStorage.setItem("cart-items", JSON.stringify(cartItems));
+    }
+  }, [cartItems, isLoggedIn]);
+
+  //when you log in save the user in local storage, when you close session remove user and cartItems from local storage
+  useEffect(() => {
+    if (isLoggedIn) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+      localStorage.removeItem("cart-items");
+    }
+  }, [isLoggedIn]);
 
   const handleLogin = (e) => {
     const { name, value } = e.target;
@@ -27,11 +101,20 @@ export const GlobalProvider = ({ children }) => {
 
   const signUp = (e) => {
     e.preventDefault();
-    axios.post("./signup", user).then((res) => {
-      setIsLoggedIn(true);
-    });
-    toggleLogin();
-    toggleSignupFlag();
+    if (user.username === "" || user.password === "" || user.email === "") {
+      setSignupEmptyFields(true);
+      setTimeout(() => {
+        setSignupEmptyFields(false);
+      }, 3000);
+    } else {
+      axios
+        .post("https://grace-vitrofusion.herokuapp.com/signup", user)
+        .then((res) => {
+          setIsLoggedIn(true);
+        });
+      toggleLogin();
+      toggleSignupFlag();
+    }
   };
 
   const toggleSignupFlag = (e) => {
@@ -41,16 +124,50 @@ export const GlobalProvider = ({ children }) => {
 
   const logIn = (e) => {
     e.preventDefault();
-    axios.get("/login").then((res) => {
-      setUser(res);
-      setIsLoggedIn(true);
-    });
-    toggleLogin();
+    if (user.username === "" || user.password === "") {
+      setIncorrectUser(true);
+      setTimeout(() => {
+        setIncorrectUser(false);
+      }, 3000);
+    } else {
+      axios
+        .get(
+          `https://grace-vitrofusion.herokuapp.com/login/${user.username}&${user.password}`
+        )
+        .then((res) => {
+          if (!res.data.length) {
+            setIncorrectUser(true);
+            setTimeout(() => {
+              setIncorrectUser(false);
+            }, 3000);
+          } else {
+            setUser(res.data[0]);
+            setIsLoggedIn(true);
+            toggleLogin();
+          }
+        });
+    }
   };
 
+  const toggleCloseSession = () => {
+    setCloseSessionFlag(!closeSessionFlag);
+  };
   const closeSession = () => {
     setIsLoggedIn(false);
-    setUser({ username: "", password: "", email: "" });
+    setUser({
+      username: "",
+      password: "",
+      email: "",
+    });
+    setPurchaseData({
+      method: "",
+      number: "",
+      name: "",
+      lastName: "",
+      phone: "",
+      address: "",
+    });
+    setCartItems([]);
   };
 
   const handleChange = (e) => {
@@ -75,6 +192,12 @@ export const GlobalProvider = ({ children }) => {
 
   const toggleLogin = () => {
     setIsLoginOpen(!isLoginOpen);
+    if (signupFlag) {
+      setSignupFlag(false);
+    }
+    // if (!isLoggedIn) {
+    //   setUser({ username: "", password: "", email: "" });
+    // }
   };
 
   const addToCart = (code, price) => {
@@ -140,10 +263,17 @@ export const GlobalProvider = ({ children }) => {
         logIn,
         isLoggedIn,
         closeSession,
+        toggleCloseSession,
+        closeSessionFlag,
         togglePlsLogin,
         plsLogin,
         toggleSignupFlag,
         signupFlag,
+        makePurchase,
+        setCurrentPurchaseDetails,
+        purchaseDetails,
+        incorrectUser,
+        signupEmptyFields,
       }}
     >
       {children}

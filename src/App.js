@@ -11,6 +11,9 @@ import CartModal from "./components/CartModal";
 import LogIn from "./components/LogIn";
 import MakePurchase from "./pages/MakePurchase";
 import CompletePurchase from "./pages/CompletePurchase";
+import History from "./pages/History";
+import PurchaseDetails from "./pages/PurchaseDetails";
+import CloseSession from "./components/CloseSession";
 import { GlobalProvider } from "./context";
 
 function App() {
@@ -20,6 +23,7 @@ function App() {
         <Navbar />
         <CartModal />
         <LogIn />
+        <CloseSession />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/galeria/:id" element={<Gallery />} />
@@ -27,6 +31,8 @@ function App() {
           <Route path="/contacto" element={<Contact />} />
           <Route path="/realizar-compra" element={<MakePurchase />} />
           <Route path="/finalizar-compra" element={<CompletePurchase />} />
+          <Route path="/historial" element={<History />} />
+          <Route path="/historial/detalles" element={<PurchaseDetails />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

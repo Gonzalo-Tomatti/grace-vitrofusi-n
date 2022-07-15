@@ -181,6 +181,7 @@ footer {
 }
 .cart-container table {
   width: 85%;
+  margin-top: 2rem;
 }
 
 .bi-x-lg {
@@ -270,6 +271,13 @@ footer {
   width: 10rem;
 }
 
+/* CLOSE SESSION */
+.close-session-container {
+  height: 15rem;
+  width: 100%;
+  border-radius: 1rem;
+}
+
 @media screen and (min-width: 576px) {
   /* HOME */
   .title {
@@ -304,6 +312,11 @@ footer {
   /* CONTACT */
   .form-input {
     width: 17rem;
+  }
+
+  /* CLOSE SESSION */
+  .close-session-container {
+    width: 25rem;
   }
 }
 

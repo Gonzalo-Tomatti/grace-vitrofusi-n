@@ -4,7 +4,7 @@ import { GLobalContext } from "../context";
 const CartList = () => {
   const { cartItems, updateAmount } = useContext(GLobalContext);
   return (
-    <table class="table">
+    <table className="table">
       <thead>
         <tr>
           <th scope="col">Ítem</th>

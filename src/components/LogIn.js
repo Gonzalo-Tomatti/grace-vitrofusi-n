@@ -11,6 +11,8 @@ const LogIn = () => {
     logIn,
     signupFlag,
     toggleSignupFlag,
+    incorrectUser,
+    signupEmptyFields,
   } = useContext(GLobalContext);
 
   return (
@@ -57,6 +59,11 @@ const LogIn = () => {
                 id="email"
                 required
               ></input>
+              {signupEmptyFields && (
+                <p className="text-danger p mt-2">
+                  Por favor complete todos los campos.
+                </p>
+              )}
               <button onClick={signUp} className="btn btn-success my-3">
                 Crear
               </button>
@@ -71,7 +78,7 @@ const LogIn = () => {
                 onChange={handleLogin}
                 value={user.username}
                 type="text"
-                className="form-input"
+                className="form-input mx-auto"
                 name="username"
                 id="username"
                 required
@@ -83,11 +90,17 @@ const LogIn = () => {
                 onChange={handleLogin}
                 value={user.password}
                 type="text"
-                className="form-input"
+                className="form-input mx-auto"
                 name="password"
                 id="password"
                 required
               ></input>
+              {incorrectUser && (
+                <p className="text-danger p mt-2">
+                  Usuario Incorrecto. Por favor ingrese un nombre de usuario y
+                  contraseña válidos.
+                </p>
+              )}
               <button onClick={logIn} className="btn btn-success my-3">
                 Entrar
               </button>

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../owl-logo.png";
 import { GLobalContext } from "../context";
 
 const Navbar = () => {
-  const { toggleCart, cartItems, toggleLogin, isLoggedIn, closeSession } =
+  const { toggleCart, cartItems, toggleLogin, isLoggedIn, toggleCloseSession } =
     useContext(GLobalContext);
   return (
     <nav className="navbar navbar-expand-md black-bg py-3">
@@ -37,17 +37,27 @@ const Navbar = () => {
                 Contacto
               </NavLink>
             </li>
-            <li className="nav-item">
-              {isLoggedIn ? (
-                <p onClick={closeSession} className="navlink p">
-                  Cerrar Sesión
-                </p>
-              ) : (
+            {isLoggedIn ? (
+              <>
+                <li className="nav-item">
+                  <p onClick={toggleCloseSession} className="navlink p">
+                    Cerrar Sesión
+                  </p>
+                </li>
+                <li className="nav-item">
+                  <NavLink className={"navlink"} to="historial">
+                    Historial
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
                 <p onClick={toggleLogin} className="navlink p">
                   Iniciar Sesión
                 </p>
-              )}
-            </li>
+              </li>
+            )}
+
             <li className="nav-item">
               <i onClick={toggleCart} className="bi bi-cart-fill navlink">
                 {cartItems.length ? (
