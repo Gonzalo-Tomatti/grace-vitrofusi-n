@@ -13,6 +13,7 @@ const LogIn = () => {
     toggleSignupFlag,
     incorrectUser,
     signupEmptyFields,
+    emailInUse,
   } = useContext(GLobalContext);
 
   return (
@@ -62,6 +63,11 @@ const LogIn = () => {
               {signupEmptyFields && (
                 <p className="text-danger p mt-2">
                   Por favor complete todos los campos.
+                </p>
+              )}
+              {emailInUse && (
+                <p className="text-danger p mt-2">
+                  El email ingresado ya está en uso.
                 </p>
               )}
               <button onClick={signUp} className="btn btn-success my-3">

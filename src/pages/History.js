@@ -6,7 +6,10 @@ import Purchase from "../components/Purchase";
 const History = () => {
   const { user } = useContext(GLobalContext);
   const [history, setHistory] = useState([]);
-
+  const [fetchingHistory, setFetchingHistory] = useState(true);
+  setTimeout(() => {
+    setFetchingHistory(false);
+  }, 1000);
   useEffect(() => {
     axios
       .get(
@@ -15,7 +18,16 @@ const History = () => {
       .then((res) => {
         setHistory(res.data);
       });
-  }, []);
+  }, [fetchingHistory]);
+
+  if (fetchingHistory) {
+    return (
+      <div className="section p-3">
+        <h3 className="text-center mt-5">Loading history</h3>
+      </div>
+    );
+  }
+
   return (
     <div className="section p-3 text-center">
       <h4 className="mb-4">Historial de compras</h4>

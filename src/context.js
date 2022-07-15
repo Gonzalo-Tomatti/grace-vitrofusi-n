@@ -21,6 +21,7 @@ export const GlobalProvider = ({ children }) => {
   const [incorrectUser, setIncorrectUser] = useState(false);
   const [signupEmptyFields, setSignupEmptyFields] = useState(false);
   const [closeSessionFlag, setCloseSessionFlag] = useState(false);
+  const [emailInUse, setEmailInUse] = useState(false);
   const [user, setUser] = useState(storedUser);
   const [purchaseData, setPurchaseData] = useState({
     method: "",
@@ -110,10 +111,17 @@ export const GlobalProvider = ({ children }) => {
       axios
         .post("https://grace-vitrofusion.herokuapp.com/signup", user)
         .then((res) => {
-          setIsLoggedIn(true);
+          if (res.data.msg === "email in use") {
+            setEmailInUse(true);
+            setTimeout(() => {
+              setEmailInUse(false);
+            }, 3000);
+          } else {
+            setIsLoggedIn(true);
+            toggleLogin();
+            toggleSignupFlag();
+          }
         });
-      toggleLogin();
-      toggleSignupFlag();
     }
   };
 
@@ -274,6 +282,7 @@ export const GlobalProvider = ({ children }) => {
         purchaseDetails,
         incorrectUser,
         signupEmptyFields,
+        emailInUse,
       }}
     >
       {children}
