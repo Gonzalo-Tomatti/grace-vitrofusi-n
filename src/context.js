@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-// AXIOS GLOBALS
 let storedItems, storedToken;
 window.addEventListener("DOMContentLoaded", () => {
   storedToken = JSON.parse(localStorage.getItem("token")) || "";
@@ -11,6 +10,8 @@ window.addEventListener("DOMContentLoaded", () => {
 export const GLobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const [token, setToken] = useState(storedToken);
+
+  // AXIOS GLOBALS
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -19,10 +20,9 @@ export const GlobalProvider = ({ children }) => {
   const [plsLogin, setPlsLogin] = useState(false);
   const [cartItems, setCartItems] = useState(storedItems);
   const [signupFlag, setSignupFlag] = useState(false);
-  const [incorrectUser, setIncorrectUser] = useState(false);
-  const [signupEmptyFields, setSignupEmptyFields] = useState(false);
   const [closeSessionFlag, setCloseSessionFlag] = useState(false);
-  const [emailInUse, setEmailInUse] = useState(false);
+  const [errorFlag, setErrorFlag] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [user, setUser] = useState({ email: "", password: "" });
   const [purchaseData, setPurchaseData] = useState({
     method: "",
@@ -64,11 +64,11 @@ export const GlobalProvider = ({ children }) => {
   // console.log("stored items", storedItems);
   // console.log("stored token", storedToken);
   // console.log("logeado", isLoggedIn);
-  console.log("user variable", user);
+  // console.log("user variable", user);
   // console.log("cart items variable", cartItems);
   // console.log("token variable", token);
 
-  // when you refresh the website, if there's a user set in local storage then you set loggedIn to true
+  // when you refresh the website, if there's a token set in local storage then you set loggedIn to true
   useEffect(() => {
     if (token) {
       setIsLoggedIn(true);
@@ -81,7 +81,7 @@ export const GlobalProvider = ({ children }) => {
     }
   }, [cartItems, isLoggedIn]);
 
-  //when you log in save the user in local storage, when you close session remove user and cartItems from local storage
+  //when you log in save the token in local storage, when you close session remove token and cartItems from local storage
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("token", JSON.stringify(token));
@@ -104,19 +104,15 @@ export const GlobalProvider = ({ children }) => {
   const signUp = (e) => {
     e.preventDefault();
     if (user.password === "" || user.email === "") {
-      setSignupEmptyFields(true);
-      setTimeout(() => {
-        setSignupEmptyFields(false);
-      }, 3000);
+      showError("Por favor completar todos los campos.");
+    } else if (!user.email.includes("@")) {
+      showError("El email debe contener @.");
     } else {
       axios
         .post("https://grace-vitrofusion.herokuapp.com/signup", user)
         .then((res) => {
           if (res.data.msg === "email in use") {
-            setEmailInUse(true);
-            setTimeout(() => {
-              setEmailInUse(false);
-            }, 3000);
+            showError("El email ingresado se encuentra en uso.");
           } else {
             setToken(res.data.token);
             setIsLoggedIn(true);
@@ -135,19 +131,13 @@ export const GlobalProvider = ({ children }) => {
   const logIn = (e) => {
     e.preventDefault();
     if (user.email === "" || user.password === "") {
-      setIncorrectUser(true);
-      setTimeout(() => {
-        setIncorrectUser(false);
-      }, 3000);
+      showError("Por favor completar todos los campos.");
     } else {
       axios
         .post(`https://grace-vitrofusion.herokuapp.com/login`, user)
         .then((res) => {
           if (res.data.msg === "user not found") {
-            setIncorrectUser(true);
-            setTimeout(() => {
-              setIncorrectUser(false);
-            }, 3000);
+            showError("El usuario no existe.");
           } else {
             setToken(res.data.token);
             setIsLoggedIn(true);
@@ -251,6 +241,14 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  const showError = (msg) => {
+    setErrorMsg(msg);
+    setErrorFlag(true);
+    setTimeout(() => {
+      setErrorFlag(false);
+    }, 3000);
+  };
+
   return (
     <GLobalContext.Provider
       value={{
@@ -279,10 +277,9 @@ export const GlobalProvider = ({ children }) => {
         makePurchase,
         setCurrentPurchaseDetails,
         purchaseDetails,
-        incorrectUser,
-        signupEmptyFields,
-        emailInUse,
         token,
+        errorFlag,
+        errorMsg,
       }}
     >
       {children}

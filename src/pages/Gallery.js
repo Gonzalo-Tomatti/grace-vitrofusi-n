@@ -266,6 +266,9 @@ const Gallery = () => {
     }
   };
 
+  const getCurrentPage = (p) => {
+    setCurrentPage(p);
+  };
   return (
     <section className="light-bg p-2 text-center section">
       <div className="container ">
@@ -338,7 +341,7 @@ const Gallery = () => {
         {numberOfPages.length > 1 && (
           <Pagination
             currentPage={currentPage}
-            getCurrentPage={setCurrentPage}
+            getCurrentPage={getCurrentPage}
             numberOfPages={numberOfPages}
           />
         )}
