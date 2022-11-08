@@ -10,7 +10,7 @@ const History = () => {
   }, 1000);
   useEffect(() => {
     axios
-      .get(`https://grace-vitrofusion.herokuapp.com/get-purchases`)
+      .get(`https://grace-vitrofusion.onrender.com/get-purchases`)
       .then((res) => {
         setHistory(res.data);
       })
