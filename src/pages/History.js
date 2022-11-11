@@ -10,7 +10,9 @@ const History = () => {
   }, 1000);
   useEffect(() => {
     axios
-      .get(`https://grace-vitrofusion.onrender.com/get-purchases`)
+      .get(
+        `https://backend-grace-vitrofusion-production.up.railway.app/get-purchases`
+      )
       .then((res) => {
         setHistory(res.data);
       })

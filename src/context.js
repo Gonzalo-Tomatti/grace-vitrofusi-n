@@ -55,7 +55,10 @@ export const GlobalProvider = ({ children }) => {
       items: cartItems,
     };
     axios
-      .post("https://grace-vitrofusion.onrender.com/make-purchase", purchase)
+      .post(
+        "https://backend-grace-vitrofusion-production.up.railway.app/make-purchase",
+        purchase
+      )
       .then(() => {
         setCartItems([]);
       });
@@ -109,7 +112,10 @@ export const GlobalProvider = ({ children }) => {
       showError("El email debe contener @.");
     } else {
       axios
-        .post("https://grace-vitrofusion.onrender.com/signup", user)
+        .post(
+          "https://backend-grace-vitrofusion-production.up.railway.app/signup",
+          user
+        )
         .then((res) => {
           if (res.data.msg === "email in use") {
             showError("El email ingresado se encuentra en uso.");
@@ -134,7 +140,10 @@ export const GlobalProvider = ({ children }) => {
       showError("Por favor completar todos los campos.");
     } else {
       axios
-        .post(`https://grace-vitrofusion.onrender.com/login`, user)
+        .post(
+          `https://backend-grace-vitrofusion-production.up.railway.app/login`,
+          user
+        )
         .then((res) => {
           if (res.data.msg === "user not found") {
             showError("El usuario no existe.");
